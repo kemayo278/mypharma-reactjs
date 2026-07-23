@@ -10,7 +10,7 @@ export default function PrintRecapOrders({
   const sales = product_recap;
 
   const totalComputed = sales?.reduce(
-    (sum, sale) => sum + sale.product_details.product_sale_price * sale.quantity, 0
+    (sum, sale) => sum + Number(sale.product_details.sale_price) * sale.quantity, 0
   ) ?? 0;
 
   const displayTotal = total_amount ?? totalComputed;
@@ -107,17 +107,22 @@ export default function PrintRecapOrders({
             </div>
             {institution?.Institution_matriculation && (
               <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
-                Mat : {institution.Institution_matriculation}
+                {institution.Institution_matriculation}
+              </div>
+            )}
+            {institution?.Institution_phone && (
+              <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
+                {institution.Institution_phone}
               </div>
             )}
             {institution?.Institution_num_declaration && (
               <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
-                N° Déc : {institution.Institution_num_declaration}
+                {institution.Institution_num_declaration}
               </div>
             )}
             {institution?.Institution_number_register && (
               <div style={{ fontSize: '14px', color: '#475569' }}>
-                Registre : {institution.Institution_number_register}
+                {institution.Institution_number_register}
               </div>
             )}
           </div>
@@ -169,16 +174,16 @@ export default function PrintRecapOrders({
                   borderBottom: '1px solid #e2e8f0',
                 }}>
                   <td style={{ padding: '13px 15px', fontSize: '16px', fontWeight: '500', color: '#1a1a2e' }}>
-                    {sale.product_details.product_name}
+                    {sale.product_details.name}
                   </td>
                   <td style={{ padding: '13px 15px', textAlign: 'center', fontSize: '16px', fontWeight: '700', color: '#1a1a2e' }}>
                     {sale.quantity}
                   </td>
                   <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', color: '#475569' }}>
-                    {Number(sale.product_details.product_sale_price).toLocaleString('fr-FR')}
+                    {Number(sale.product_details.sale_price).toLocaleString('fr-FR')}
                   </td>
                   <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', fontWeight: '700', color: '#10518E' }}>
-                    {(sale.product_details.product_sale_price * sale.quantity).toLocaleString('fr-FR')}
+                    {(Number(sale.product_details.sale_price) * sale.quantity).toLocaleString('fr-FR')}
                   </td>
                 </tr>
               ))}

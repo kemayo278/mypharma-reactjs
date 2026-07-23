@@ -57,7 +57,7 @@ export default function Category() {
           formData.append('_method', 'DELETE');
           axiosClient.post(`/category/${id}`,formData).then( () => {
             Swal.fire({position: 'top-right',icon: 'success',title: 'Succès!',text: 'Catégorie supprimée avec succès',showConfirmButton: true,confirmButtonColor: '#10518E'});
-            getCategories()
+            setCategories((prev) => prev.filter((category) => category.category_id !== id));
           }).catch(err => {
             const response = err.response;
             if (response.data.message) {

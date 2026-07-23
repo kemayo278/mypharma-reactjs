@@ -647,7 +647,7 @@ export default function Orders() {
           <PrintRecapOrders institution={selectedOrdersRecap.institution} product_recap={selectedOrdersRecap.product_recap} total_amount={selectedOrdersRecap.total_amount} order_references={selectedOrdersRecap.order_references} user_names={selectedOrdersRecap.user_names} order_titled={selectedOrdersRecap.order_titled} order_date={selectedOrdersRecap.order_date} onBack={handleBackClickOrdersRecap}/>
         ) : (
             <AppLayout onSearch={handleSearch}>
-                {loadingskeletonbutton ? <div class="content-wrapper mt-10"><br /> <p className="text-center"><span className="loader"></span></p> </div> :
+                {loadingskeletonbutton ? <div className="content-wrapper mt-10 dashboard-page-theme"><br /> <p className="text-center"><span className="loader"></span></p> </div> :
                     <>
                         {errorConnection ? <ConnectionError onRetry={getOrders} /> :
                             

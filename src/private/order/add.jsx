@@ -54,6 +54,13 @@ export default function AddOrder() {
 
     const [saleType, setSaleType] = useState('direct');
 
+    const [showModalDirectPay, setShowModalDirectPay] = useState(false);
+    const [directPayMode, setDirectPayMode] = useState('');
+    const [directPayTransfAmount, setDirectPayTransfAmount] = useState('');
+    const [directPayEspeceAmount, setDirectPayEspeceAmount] = useState('');
+    const [loadingDirectPay, setLoadingDirectPay] = useState(false);
+    const [errorsDirectPay, setErrorsDirectPay] = useState({});
+
     const [selectedProductOption, setSelectedProductOption] = useState(null);
 
     const [orderForm, setOrderForm] = useState({
@@ -127,6 +134,100 @@ export default function AddOrder() {
         setShowModalOrder(true);
         setErrors({});
     }
+
+    const handleModalOpenDirectPay = () => {
+        setShowModalDirectPay(true);
+        setDirectPayMode('');
+        setDirectPayTransfAmount('');
+        setDirectPayEspeceAmount('');
+        setErrorsDirectPay({});
+    };
+
+    const handleModalCloseDirectPay = () => {
+        setShowModalDirectPay(false);
+        setDirectPayMode('');
+        setDirectPayTransfAmount('');
+        setDirectPayEspeceAmount('');
+        setErrorsDirectPay({});
+    };
+
+    const handleAddDirectOrder = async (e) => {
+        e.preventDefault();
+        const errs = {};
+
+        if (!directPayMode) {
+            errs.paymentMode = 'Sélectionner un mode de paiement';
+        }
+        if (orderForm.customerType === 'AUTRE' && orderForm.customerCustomName.trim() === '') {
+            errs.namecustomer = 'Nom du client requis';
+        }
+        const isMix = directPayMode === 'paid OM ESPECE' || directPayMode === 'paid MOMO ESPECE';
+        if (isMix) {
+            if (!directPayTransfAmount || directPayTransfAmount === '0') errs.transfAmount = 'Champ requis';
+            if (!directPayEspeceAmount || directPayEspeceAmount === '0') errs.especeAmount = 'Champ requis';
+            if (directPayTransfAmount && directPayEspeceAmount) {
+                const sum = parseInt(directPayTransfAmount, 10) + parseInt(directPayEspeceAmount, 10);
+                if (sum !== getTotalPrice()) {
+                    errs.mixSum = `La somme (${sum}) ne correspond pas au total (${getTotalPrice()})`;
+                }
+            }
+        }
+
+        if (Object.keys(errs).length > 0) {
+            setErrorsDirectPay(errs);
+            return;
+        }
+
+        setLoadingDirectPay(true);
+        setErrorsDirectPay({});
+
+        let customerId = null;
+        let customerName = null;
+        if (orderForm.customerType === 'AUTRE') {
+            customerName = orderForm.customerCustomName.trim();
+        } else if (orderForm.customerType !== 'CLIENT DIVERS') {
+            customerId = Number(orderForm.customerType);
+        }
+
+        const data = {
+            user_id: currentUser.id,
+            price: parseInt(getTotalPrice()),
+            state: directPayMode,
+            titled: orderForm.titled.trim(),
+            sale_type: 'direct',
+            amount_mix: isMix
+                ? JSON.stringify({ transfAmount: directPayTransfAmount, especeAmount: directPayEspeceAmount })
+                : null,
+        };
+        if (customerId !== null) data.customer_id = customerId;
+        if (customerName) data.customer_name = customerName;
+        data.products = cartItems.map((cartItem) => ({
+            product_id: getProductId(cartItem.product),
+            quantity: cartItem.quantity,
+            sell_price: cartItem.price,
+        }));
+
+        await axiosClient.post('/storeOrderSale/add', data).then(({ data: res }) => {
+            clearCart();
+            handleModalCloseDirectPay();
+            console.log(res);
+            if (res.order) {
+                setSelectedOrder(res.order);
+                setSelectedInstitution(res.institution ?? null);
+                setIsPrinting(true);
+            } else {
+                navigate('/user-orders');
+            }
+        }).catch(err => {
+            const response = err.response;
+            if (response && response.status === 422) {
+                setErrorsDirectPay({ connection: "Champs invalides. Vider le panier et recommencer." });
+            } else {
+                setErrorsDirectPay({ connection: "Vérifier votre connexion Internet" });
+            }
+            setLoadingDirectPay(false);
+        });
+    };
 
     useEffect(() => {
         inputquantity.current = [];
@@ -349,15 +450,24 @@ export default function AddOrder() {
                         <div className="sale-type-header">
                             <button
                                 type="button"
-                                className={`sale-type-btn ${saleType === 'direct' ? 'active' : ''}`}
-                                onClick={() => setSaleType('direct')}
+                                className={`sale-type-btn ${saleType === 'bon' ? 'active' : ''}`}
+                                onClick={() => setSaleType('bon')}
                             >
-                                Vente Directe
+                                Vente par Bon
                             </button>
                             <button
                                 type="button"
-                                className={`sale-type-btn ${saleType === 'insurance' ? 'active' : ''}`}
-                                onClick={() => setSaleType('insurance')}
+                                className={`sale-type-btn ${saleType === 'direct' ? 'active' : ''}`}
+                                onClick={() => setSaleType('direct')}
+                            >
+                                Vente en Direct
+                            </button>
+                            <button
+                                type="button"
+                                className="sale-type-btn"
+                                disabled
+                                title="Bientôt disponible"
+                                style={{ opacity: 0.45, cursor: 'not-allowed' }}
                             >
                                 Vente Assurance
                             </button>
@@ -485,6 +595,138 @@ export default function AddOrder() {
                                         <div class="col-75 link-login">
                                             <button type="button" class="login" onClick={loadingsubmitbutton ? null : handleAddOrder}>
                                                 {loadingsubmitbutton ? <div className="spinner"></div> : 'Terminer'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </>
+                        </CustomModal>
+
+                        {/* Modal Vente en Direct — paiement immédiat */}
+                        <CustomModal isOpen={showModalDirectPay} onClose={handleModalCloseDirectPay} title="Vente en Direct — Paiement">
+                            <>
+                                <form onSubmit={handleAddDirectOrder}>
+                                    {errorsDirectPay.connection &&
+                                        <Alert className={'alert-warning'} type="Warning" message={errorsDirectPay.connection} />
+                                    }
+                                    <div className='row'>
+                                        <div className="col-75">
+                                            <label htmlFor="customerSelectDirect">Infos Client</label>
+                                            <Select
+                                                inputId="customerSelectDirect"
+                                                value={(() => {
+                                                    if (orderForm.customerType === 'CLIENT DIVERS') return { value: 'CLIENT DIVERS', label: 'CLIENT DIVERS' };
+                                                    if (orderForm.customerType === 'AUTRE') return { value: 'AUTRE', label: 'AUTRE — saisie manuelle' };
+                                                    const found = customers.find(c => String(c.id) === String(orderForm.customerType));
+                                                    return found ? { value: String(found.id), label: [found.name, found.phone].filter(Boolean).join(' - ') } : null;
+                                                })()}
+                                                onChange={(option) => handleOrderFormChange('customerType', option ? option.value : 'CLIENT DIVERS')}
+                                                options={[
+                                                    { value: 'CLIENT DIVERS', label: 'CLIENT DIVERS' },
+                                                    { value: 'AUTRE', label: 'AUTRE — saisie manuelle' },
+                                                    ...customers.map((c) => ({
+                                                        value: String(c.id),
+                                                        label: [c.name, c.phone, c.email].filter(Boolean).join(' - '),
+                                                    })),
+                                                ]}
+                                                placeholder="Rechercher un client..."
+                                                noOptionsMessage={() => 'Aucun client trouvé'}
+                                                styles={{
+                                                    control: (base) => ({ ...base, fontSize: '15px', minHeight: '46px', marginBottom: '4px' }),
+                                                    menu: (base) => ({ ...base, zIndex: 9999 }),
+                                                }}
+                                            />
+                                            <br />
+                                        </div>
+                                        <div className="col-75" style={{ display: orderForm.customerType === 'AUTRE' ? 'block' : 'none' }}>
+                                            <label htmlFor="nameDirect">Noms *</label>
+                                            <input
+                                                id="nameDirect"
+                                                type="text"
+                                                value={orderForm.customerCustomName}
+                                                onChange={(e) => handleOrderFormChange('customerCustomName', e.target.value)}
+                                            />
+                                            {errorsDirectPay.namecustomer && <span className="text-danger">{errorsDirectPay.namecustomer}</span>}
+                                            <br /><br />
+                                        </div>
+                                        <div className="col-75">
+                                            <label htmlFor="titledDirect">Intitulé</label>
+                                            <input
+                                                id="titledDirect"
+                                                type="text"
+                                                value={orderForm.titled}
+                                                onChange={(e) => handleOrderFormChange('titled', e.target.value)}
+                                            />
+                                            <br /><br />
+                                        </div>
+                                        <div className="col-75">
+                                            <label htmlFor="paymentModeDirect">Mode de paiement *</label>
+                                            <select
+                                                id="paymentModeDirect"
+                                                value={directPayMode}
+                                                onChange={(e) => {
+                                                    setDirectPayMode(e.target.value);
+                                                    setDirectPayTransfAmount('');
+                                                    setDirectPayEspeceAmount('');
+                                                    setErrorsDirectPay({});
+                                                }}
+                                                style={{ width: '100%', padding: '10px', fontSize: '15px', borderRadius: '6px', border: '1px solid #ccc' }}
+                                            >
+                                                <option value="">-- Sélectionner --</option>
+                                                <option value="paid">ESPECE</option>
+                                                <option value="paid OM">ORANGE MONEY</option>
+                                                <option value="paid MOMO">MOMO</option>
+                                                <option value="paid OFFRE">OFFRE</option>
+                                                <option value="paid OM ESPECE">ORANGE MONEY + ESPECE</option>
+                                                <option value="paid MOMO ESPECE">MOMO + ESPECE</option>
+                                            </select>
+                                            {errorsDirectPay.paymentMode && <span className="text-danger">{errorsDirectPay.paymentMode}</span>}
+                                            <br /><br />
+                                        </div>
+                                        {(directPayMode === 'paid OM ESPECE' || directPayMode === 'paid MOMO ESPECE') && (
+                                            <>
+                                                <div className="col-75">
+                                                    <label htmlFor="transfAmountDirect">
+                                                        Montant {directPayMode === 'paid OM ESPECE' ? 'Orange Money' : 'MoMo'} (XAF)
+                                                    </label>
+                                                    <input
+                                                        id="transfAmountDirect"
+                                                        type="number"
+                                                        min="0"
+                                                        value={directPayTransfAmount}
+                                                        onChange={(e) => setDirectPayTransfAmount(e.target.value)}
+                                                    />
+                                                    {errorsDirectPay.transfAmount && <span className="text-danger">{errorsDirectPay.transfAmount}</span>}
+                                                    <br /><br />
+                                                </div>
+                                                <div className="col-75">
+                                                    <label htmlFor="especeAmountDirect">Montant Espèces (XAF)</label>
+                                                    <input
+                                                        id="especeAmountDirect"
+                                                        type="number"
+                                                        min="0"
+                                                        value={directPayEspeceAmount}
+                                                        onChange={(e) => setDirectPayEspeceAmount(e.target.value)}
+                                                    />
+                                                    {errorsDirectPay.especeAmount && <span className="text-danger">{errorsDirectPay.especeAmount}</span>}
+                                                    <br /><br />
+                                                </div>
+                                                {errorsDirectPay.mixSum && (
+                                                    <div className="col-75">
+                                                        <span className="text-danger">{errorsDirectPay.mixSum}</span>
+                                                        <br /><br />
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
+                                        <div className="col-75" style={{ backgroundColor: '#f0f6ff', borderRadius: '8px', padding: '12px 16px', marginBottom: '12px' }}>
+                                            <span style={{ fontSize: '15px', color: '#10518E', fontWeight: '600' }}>
+                                                Total à encaisser : {getTotalPrice().toLocaleString('fr-FR')} XAF
+                                            </span>
+                                        </div>
+                                        <div className="col-75 link-login">
+                                            <button type="submit" className="login" disabled={loadingDirectPay}>
+                                                {loadingDirectPay ? <div className="spinner"></div> : 'Payer'}
                                             </button>
                                         </div>
                                     </div>
@@ -636,7 +878,7 @@ export default function AddOrder() {
                                                         <button
                                                             type="button"
                                                             className="entry-cart-submit"
-                                                            onClick={() => handleModalOpenOrder('')}
+                                                            onClick={() => saleType === 'direct' ? handleModalOpenDirectPay() : handleModalOpenOrder('')}
                                                             disabled={cartItems.length === 0}
                                                         >
                                                             Finaliser

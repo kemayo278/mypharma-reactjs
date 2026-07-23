@@ -4,7 +4,7 @@ import AuthReducer from "./AuthReducer";
 const INITIAL_STATE = {
     currentUser : (() => {
         try {
-            const user = localStorage.getItem("userloung");
+            const user = localStorage.getItem("kgs-cust-widget-session");
             return user ? JSON.parse(user) : null;
         } catch (e) {
             return null;
@@ -18,7 +18,7 @@ export const AuthContext = createContext(INITIAL_STATE);
 export const AuthContextProvider = ({ children }) => {
     const [state,dispatch] = useReducer(AuthReducer, INITIAL_STATE);
     useEffect(()=>{
-        localStorage.setItem("userloung", JSON.stringify(state.currentUser))
+        localStorage.setItem("kgs-cust-widget-session", JSON.stringify(state.currentUser))
         localStorage.setItem("access_token", state.token);
     }, [state.currentUser, state.token]);
     return (

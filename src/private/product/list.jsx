@@ -314,7 +314,7 @@ export default function Products() {
                         fontSize: '14px'
                       }}
                     >
-                      <Filter size={16} />
+                      <Filter size={16} color='white' />
                       Filtres {getActiveFiltersCount() > 0 && `(${getActiveFiltersCount()})`}
                     </button>
                     

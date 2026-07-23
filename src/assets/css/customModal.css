@@ -1,0 +1,122 @@
+/* Modal container styling */
+.custom-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    width: 680px;
+    max-width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    z-index: 1450;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: modalFadeIn 0.3s forwards;
+  }
+
+  .custom-modal-body .p-line{
+    font-size: 20px;
+    line-height: 2;
+  }
+
+  .custom-modal-header,
+  .custom-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .custom-modal-header {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .custom-modal-footer {
+    border-top: 1px solid #e5e5e5;
+    text-align: right;
+  }
+
+  .custom-modal-body {
+    padding: 10px 0;
+  }
+
+  .custom-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* Overlay background */
+  .custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1400;
+    opacity: 0;
+    animation: overlayFadeIn 0.3s forwards;
+  }
+
+  /* Hiding the modal with fade-out animation */
+  .custom-modal.hide {
+    animation: modalFadeOut 0.3s forwards;
+  }
+
+  .custom-modal-overlay.hide {
+    animation: overlayFadeOut 0.3s forwards;
+  }
+
+  @keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes overlayFadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes modalFadeOut {
+    from {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -40%);
+    }
+  }
+
+  /* Custom button styling */
+  .custom-modal .modal-header button.close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+  }
+
+  /* Styling the modal content */
+  .custom-modal .modal-content {
+    padding: 20px;
+    text-align: center;
+  }

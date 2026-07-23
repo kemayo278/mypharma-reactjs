@@ -1,0 +1,227 @@
+/* Responsive styles for Order Add page */
+
+/* Mobile first approach */
+@media (max-width: 576px) {
+  /* Container adjustments */
+  .content-wrapper {
+    padding: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+
+  /* Pagination mobile styles */
+  .container-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .links-pagination {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    max-width: 200px;
+    justify-content: center;
+  }
+
+  .link-pagination {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    min-width: 32px;
+    text-align: center;
+  }
+
+  .button-pagination {
+    padding: 0.25rem;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Table responsive improvements */
+  .table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  #customers {
+    font-size: 0.875rem;
+  }
+
+  #customers th,
+  #customers td {
+    padding: 0.5rem 0.25rem;
+    vertical-align: middle;
+  }
+
+  #customers th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #f8f9fa;
+  }
+
+  /* Product name styling on mobile */
+  .fw-bold small {
+    font-weight: 400;
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  /* Button improvements */
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Modal improvements for mobile */
+  .modal-dialog {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .form-control {
+    font-size: 1rem; /* Prevent zoom on iOS */
+    padding: 0.75rem;
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+
+  /* Cart summary improvements */
+  .table-warning td {
+    background-color: #fff3cd !important;
+    border-color: #ffecb5 !important;
+  }
+
+  .fs-5 {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 577px) and (max-width: 991px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .container-pagination {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .links-pagination {
+    gap: 0.5rem;
+  }
+
+  .link-pagination {
+    padding: 0.5rem 0.75rem;
+  }
+
+  #customers th,
+  #customers td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+  .container-pagination {
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .links-pagination {
+    gap: 0.5rem;
+  }
+
+  /* Hover effects for desktop */
+  #customers tbody tr:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease;
+  }
+}
+
+/* Common improvements across all screen sizes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Loading spinner improvements */
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Alert improvements */
+.alert {
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Form improvements */
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+/* Text utilities */
+.text-danger {
+  color: #dc3545 !important;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Card-like appearance for products */
+@media (max-width: 576px) {
+  #customers tbody tr {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 0.5rem;
+  }
+
+  #customers tbody tr:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Accessibility improvements */
+.btn:focus,
+.form-control:focus,
+.link-pagination:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .container-pagination,
+  .btn,
+  .modal {
+    display: none !important;
+  }
+}

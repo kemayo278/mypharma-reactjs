@@ -1,0 +1,26 @@
+{
+    "home": {
+      "welcome": "Welcome to our website",
+      "description": "Welcome to our platform dedicated to optimizing the management of your reports and missions. Track the progress of your tasks and ensure efficient execution thanks to our integrated tools",
+      "btngetStarted": "Get Started"
+    },
+    "sidebar": {
+      "home": "Home",
+      "head-1": "You",
+      "head-2": "Reports",
+      "head-3": "Goals",
+      "shorts": "Trainings",
+      "profil": "Profile",
+      "myobjectifs": "My Goals",
+      "objectifs": "N-1",
+      "department": "Departments",
+      "post": "Posts",
+      "user": "Users",
+      "daily": "Daily workers",
+      "mission": "Missions",
+      "settings": "Settings",
+      "faq": "Help",
+      "logout": "Logout",
+      "signIn" : "Sign In"
+    }       
+}  

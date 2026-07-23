@@ -1,0 +1,79 @@
+.alert {
+    padding: 20px;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .alert-danger{
+    background-color: #f44336;
+  }
+  
+.alert-success{
+  background-color: #2fb050;
+}
+
+.alert-warning{
+  background-color: #e9af29;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.text-primary{
+  color: #08447c;
+}
+
+.text-black{
+  color: #000000;
+}
+
+.text-success{
+  color: #2fb050;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.text-danger-blink {
+  color: red; 
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+  
+.text-danger{
+  color: #c42618;
+}
+
+.text-warning{
+  color: #e1af0b;
+}
+
+.text-light{
+  color: #8a8a8a;
+}
+  
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: rgb(238, 228, 228);
+}

@@ -1,0 +1,238 @@
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+  }
+  
+  .col-25 {
+    -ms-flex: 25%;
+    flex: 25%;
+  }
+  
+  .col-50 {
+    -ms-flex: 50%;
+    flex: 50%;
+  }
+  
+  .col-75 {
+    -ms-flex: 75%;
+    flex: 75%;
+  }
+  
+  .col-25,
+  .col-50,
+  .col-75 {
+    padding: 0 16px;
+  }
+  
+  .container-form {
+    padding: 24px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 110px;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    resize: none;
+  }
+  
+  input[type=text],input[type=file],input[type=number],input[type=email],input[type=password] {
+    width: 100%;
+    /* margin-bottom: 20px; */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  #select-team-form{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;    
+  }
+  
+  label {
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .icon-container {
+    margin-bottom: 20px;
+    padding: 7px 0;
+    font-size: 24px;
+  }
+  
+  hr {
+    border: 1px solid lightgrey;
+  }
+  
+  span.price {
+    float: right;
+    color: grey;
+  }
+
+  .img-thumbnail {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+  }
+  
+  .img-thumbnail:hover {
+    box-shadow: 0 0 2px 1px #8e8c8f;
+  }
+  
+  @media (max-width: 800px) {
+    .row {
+      flex-direction: column;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;       
+    }
+    .col-25 {
+      margin-bottom: 20px;
+    }
+  }
+
+.pharma-product-layout {
+  align-items: flex-start;
+}
+
+.pharma-product-card {
+  border: 1px solid #d7e5e3;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(12, 81, 66, 0.08);
+}
+
+.pharma-product-card input[type="text"],
+.pharma-product-card input[type="number"],
+.pharma-product-card input[type="date"],
+.pharma-product-card select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cfe0de;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #22384b;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pharma-product-card input::placeholder {
+  color: #8aa0b1;
+}
+
+.pharma-product-card input:focus,
+.pharma-product-card select:focus {
+  outline: none;
+  border-color: #0b8b74;
+  box-shadow: 0 0 0 3px rgba(11, 139, 116, 0.14);
+}
+
+.pharma-product-card select {
+  cursor: pointer;
+}
+
+.pharma-product-card .pharma-select__control {
+  min-height: 44px;
+  border: 1px solid #cfe0de;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.pharma-product-card .pharma-select__control--is-focused {
+  border-color: #0b8b74;
+  box-shadow: 0 0 0 3px rgba(11, 139, 116, 0.14);
+}
+
+.pharma-product-card .pharma-select__menu {
+  border: 1px solid #d7e5e3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pharma-product-card .pharma-select__option--is-focused {
+  background: #eef8f6;
+}
+
+.pharma-product-card .pharma-select__option--is-selected {
+  background: #0b8b74;
+}
+
+.pharma-product-card .link-login .login {
+  width: 100%;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #0f5f9b, #0b8b74);
+}
+
+.pharma-form-section-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0f5f9b;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 10px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #d7e5e3;
+}
+
+.pharma-product-sidecard {
+  border: 1px solid #d7e5e3;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fcfb 100%);
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(12, 81, 66, 0.08);
+  position: sticky;
+  top: 90px;
+}
+
+.pharma-product-illustration-wrap {
+  width: 100%;
+  border: 1px solid #d7e5e3;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 8px;
+}
+
+.pharma-product-illustration {
+  width: 100%;
+  height: 180px;
+  display: block;
+}
+
+.pharma-product-preview {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+
+.pharma-side-hint {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f5fbfa;
+  border: 1px solid #d7e5e3;
+  color: #35536c;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.pharma-side-status {
+  margin-top: 10px;
+  color: #4d6a80;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: center;
+}
+  

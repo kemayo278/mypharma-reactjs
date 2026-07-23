@@ -1,0 +1,32 @@
+{
+    "home": {
+      "welcome": "Bienvenue sur notre site",
+      "description": "Bienvenue sur notre plateforme dédiée à l’optimisation de la gestion de vos rapports et missions. Suivez l’avancement de vos tâches et garantissez une exécution efficace grâce à nos outils intégrés",
+      "btngetStarted": "Commencer"
+    },
+    "sidebar": {
+      "home": "Accueil",
+      "head-1": "Vous",
+      "head-2": "Rapports",
+      "head-3": "Objectifs",
+      "shorts": "Formations",
+      "profil": "Profil",
+      "myobjectifs": "Mes Objectifs",
+      "objectifs": "N-1",
+      "department": "Departements",
+      "post": "Postes",
+      "user": "Utilisateurs",
+      "daily": "Journaliers",
+      "mission": "Missions",
+      "settings": "Parametres",
+      "faq": "Aide",
+      "logout": "Deconnecter",
+      "signIn" : "Se Connecter"
+    },
+    "pages" : {
+      "report-daily" : {
+        
+      }
+    }
+  }
+  

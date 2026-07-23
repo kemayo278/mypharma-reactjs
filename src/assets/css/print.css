@@ -1,0 +1,415 @@
+/* Masque les éléments avec cette classe pendant l'impression */
+@media print {
+    .print-hidden {
+        display: none;
+    }
+}
+
+.pharma-print-report {
+    background-color: #f5f8fb;
+    padding-bottom: 24px;
+}
+
+.pharma-actions {
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.pharma-action-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.pharma-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pharma-header-card {
+    background-color: #fff;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.pharma-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pharma-kicker {
+    margin: 0 0 6px 0;
+    color: #486581;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.pharma-report-title {
+    margin: 0;
+    color: #102a43;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.pharma-generated-at {
+    text-align: right;
+}
+
+.pharma-generated-at p:first-child {
+    margin: 0;
+    font-size: 13px;
+    color: #486581;
+}
+
+.pharma-generated-at p:last-child {
+    margin: 2px 0 0 0;
+    font-size: 14px;
+    color: #243b53;
+    font-weight: 700;
+}
+
+.pharma-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.pharma-kpi-card {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid transparent;
+}
+
+.pharma-kpi-label {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pharma-kpi-value {
+    margin: 4px 0 0 0;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.pharma-kpi-stock {
+    background-color: #f0f9ff;
+    border-color: #dbeafe;
+}
+
+.pharma-kpi-stock .pharma-kpi-label {
+    color: #1e3a8a;
+}
+
+.pharma-kpi-stock .pharma-kpi-value {
+    color: #1d4ed8;
+}
+
+.pharma-kpi-available {
+    background-color: #effcf6;
+    border-color: #c6f6d5;
+}
+
+.pharma-kpi-available .pharma-kpi-label {
+    color: #22543d;
+}
+
+.pharma-kpi-available .pharma-kpi-value {
+    color: #276749;
+}
+
+.pharma-kpi-low {
+    background-color: #fffbea;
+    border-color: #fef3c7;
+}
+
+.pharma-kpi-low .pharma-kpi-label {
+    color: #744210;
+}
+
+.pharma-kpi-low .pharma-kpi-value {
+    color: #b45309;
+}
+
+.pharma-kpi-out {
+    background-color: #fff5f5;
+    border-color: #fed7d7;
+}
+
+.pharma-kpi-out .pharma-kpi-label {
+    color: #822727;
+}
+
+.pharma-kpi-out .pharma-kpi-value {
+    color: #c53030;
+}
+
+.pharma-kpi-expiry {
+    background-color: #fff7ed;
+    border-color: #fdba74;
+}
+
+.pharma-kpi-expiry .pharma-kpi-label {
+    color: #9a3412;
+}
+
+.pharma-kpi-expiry .pharma-kpi-value {
+    color: #c2410c;
+}
+
+.pharma-total-value-wrap {
+    margin-top: 10px;
+    border-top: 1px dashed #d9e2ec;
+    padding-top: 10px;
+}
+
+.pharma-total-value {
+    margin: 0;
+    color: #334e68;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.pharma-total-value span {
+    color: #0f766e;
+}
+
+.pharma-category-card {
+    margin-bottom: 18px;
+    background-color: #fff;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.pharma-category-header {
+    border-left: 6px solid #0f766e;
+    padding: 12px 14px;
+    background-color: #f8fafc;
+}
+
+.pharma-category-header h3 {
+    color: #102a43;
+    margin: 0;
+    font-size: 20px;
+}
+
+.pharma-category-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.pharma-category-meta span {
+    color: #486581;
+    font-weight: 600;
+}
+
+.pharma-category-meta strong {
+    color: #0f766e;
+}
+
+.pharma-table-wrap {
+    padding: 10px 12px 14px 12px;
+}
+
+.pharma-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pharma-table thead tr {
+    background-color: #0b5563;
+}
+
+.pharma-table th {
+    color: #fff;
+    padding: 10px 8px;
+    font-size: 12px;
+}
+
+.pharma-table tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.pharma-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.pharma-table td {
+    padding: 7px 6px;
+    border-bottom: 1px solid #e4e7eb;
+    color: #102a43;
+}
+
+.pharma-table .is-center {
+    text-align: center;
+}
+
+.pharma-table .is-right {
+    text-align: right;
+}
+
+.pharma-table .cell-ref {
+    color: #243b53;
+    font-weight: 600;
+}
+
+.pharma-table .qty-critical {
+    color: #b42318;
+    font-weight: 700;
+}
+
+.pharma-table .qty-normal {
+    color: #102a43;
+    font-weight: 700;
+}
+
+.pharma-image-placeholder {
+    align-items: center;
+    text-align: center;
+    background-color: #edf2f7;
+    padding: 4px;
+    width: 66px;
+    margin: auto;
+    border-radius: 4px;
+}
+
+.pharma-product-image {
+    height: 38px;
+    width: 66px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.pharma-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 1px solid var(--badge-border);
+    color: var(--badge-text);
+    background-color: var(--badge-bg);
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.money-cell {
+    font-weight: 700;
+    color: #243b53;
+}
+
+.total-money-cell {
+    color: #0f766e;
+}
+
+.pharma-subtotal-row {
+    background-color: #eef2f7 !important;
+}
+
+.pharma-subtotal-row .subtotal-label {
+    padding: 10px 8px;
+    color: #243b53;
+    font-weight: 800;
+}
+
+.pharma-subtotal-row .subtotal-stock {
+    color: #1e3a8a;
+    font-weight: 800;
+    padding-right: 8px;
+}
+
+.pharma-subtotal-row .subtotal-amount {
+    color: #0f766e;
+    font-weight: 800;
+    padding-right: 8px;
+}
+
+.pharma-grand-total {
+    margin-top: 8px;
+    background-color: #0b5563;
+    color: #fff;
+    padding: 14px 16px;
+    border-radius: 10px;
+}
+
+.pharma-grand-total-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.pharma-grand-total-row h2 {
+    margin: 0;
+    font-size: 21px;
+    letter-spacing: 0.02em;
+}
+
+.pharma-grand-total-row h3 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.pharma-grand-total-row h3 span {
+    color: #d1fae5;
+}
+
+.pharma-grand-total-row h3:last-child span {
+    color: #fef3c7;
+}
+
+@media (max-width: 768px) {
+    .pharma-actions {
+        gap: 8px;
+    }
+
+    .pharma-action-right {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .pharma-report-title {
+        font-size: 23px;
+    }
+
+    .pharma-table-wrap {
+        overflow-x: auto;
+    }
+
+    .pharma-table {
+        min-width: 880px;
+    }
+}
+
+@media print {
+    .pharma-print-report {
+        background: #fff;
+        padding: 0;
+    }
+
+    .pharma-header-card,
+    .pharma-category-card,
+    .pharma-grand-total {
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .pharma-table th,
+    .pharma-table td {
+        font-size: 11px;
+    }
+}

@@ -1,0 +1,104 @@
+.expense-page-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4px 12px 28px;
+}
+
+.expense-form-shell {
+  align-items: flex-start;
+  row-gap: 18px;
+}
+
+.expense-form-card {
+  border: 1px solid #d9e4ea;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
+  box-shadow: 0 10px 24px rgba(16, 79, 122, 0.08);
+}
+
+.expense-form-card .form-label,
+.expense-form-card label {
+  font-weight: 600;
+  color: #27465a;
+}
+
+.expense-form-card .form-control,
+.expense-form-card .form-select,
+.expense-form-card input,
+.expense-form-card select,
+.expense-form-card textarea {
+  border: 1px solid #c7d7e2;
+  border-radius: 9px;
+  min-height: 44px;
+}
+
+.expense-form-card textarea {
+  min-height: 110px;
+}
+
+.expense-form-card .form-control:focus,
+.expense-form-card .form-select:focus,
+.expense-form-card input:focus,
+.expense-form-card select:focus,
+.expense-form-card textarea:focus {
+  border-color: #1c74ad;
+  box-shadow: 0 0 0 3px rgba(28, 116, 173, 0.14);
+}
+
+.expense-submit-btn {
+  min-width: 220px;
+  border: none;
+  border-radius: 9px;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #1d5f8f, #2a9a74);
+  color: #fff;
+  font-weight: 600;
+}
+
+.expense-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.expense-side-card {
+  border: 1px solid #d9e4ea;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(16, 79, 122, 0.08);
+}
+
+.expense-list-shell {
+  background: #ffffff;
+  border: 1px solid #d9e4ea;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 18px rgba(16, 79, 122, 0.06);
+}
+
+.expense-list-shell .table {
+  margin-bottom: 0;
+}
+
+.expense-top-actions {
+  margin: 10px 0 12px;
+}
+
+.expense-new-btn {
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1d5f8f, #2a9a74);
+  border: none;
+  color: #fff;
+  padding: 9px 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .expense-page-shell {
+    padding: 0 6px 20px;
+  }
+
+  .expense-submit-btn {
+    width: 100%;
+    min-width: unset;
+  }
+}

@@ -6,7 +6,7 @@ import { AuthContextProvider } from '@context/AuthContext.jsx'
 import './i18n';
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/mypharma"> 
+  <BrowserRouter> 
     <AuthContextProvider>
       <App />
     </AuthContextProvider>

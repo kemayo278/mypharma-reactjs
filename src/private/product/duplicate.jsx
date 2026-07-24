@@ -139,7 +139,7 @@ export default function DuplicateProduct() {
         dosage: list.dosage || list.product_dosage || "",
         pharmaceutical_form: list.pharmaceutical_form || list.product_form || "",
         laboratory: list.laboratory || list.product_laboratory || "",
-        barcode: list.barcode || list.product_barcode || "",
+        barcode: "",
         therapeutic_class: list.therapeutic_class || list.product_therapeutic_class || "",
         storage_condition: list.storage_condition || list.product_storage_condition || "",
       });
@@ -201,6 +201,9 @@ export default function DuplicateProduct() {
     }
     if (formValues.sale_price.trim() === "") {
       validationErrors.price = "Le prix de vente est requis";
+    }
+    if (formValues.expiry_date.trim() === "") {
+      validationErrors.expiry_date = "La date de peremption est requise";
     }
     return validationErrors;
   };
@@ -266,6 +269,10 @@ export default function DuplicateProduct() {
         if (response.data.errors?.batch_number) serverErrors.batch_number = response.data.errors.batch_number;
         if (response.data.errors?.expiry_date) serverErrors.expiry_date = response.data.errors.expiry_date;
         if (response.data.errors?.barcode) serverErrors.barcode = response.data.errors.barcode;
+        if (response.data.errors?.reference) serverErrors.reference = response.data.errors.reference;
+        if (!Object.keys(serverErrors).length) {
+          serverErrors.connection = "Erreur de validation. Verifier les champs et reessayer.";
+        }
       } else {
         serverErrors.connection = "Verifier votre connexion au reseau puis reessayer";
       }
@@ -400,7 +407,7 @@ export default function DuplicateProduct() {
                       <br /><br />
                     </div>
                     <div className="col-50">
-                      <label htmlFor="expiry_date">Date de peremption</label>
+                      <label htmlFor="expiry_date">Date de peremption *</label>
                       <input
                         id="expiry_date"
                         type="date"

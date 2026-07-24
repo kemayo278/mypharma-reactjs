@@ -264,7 +264,7 @@ export default function AddUpdateProduct() {
 
       setTimeout(() => {
         setSucces("");
-      }, 5000);
+      }, 15000);
     } catch (err) {
       const response = err.response;
       console.error("Error response:", response);

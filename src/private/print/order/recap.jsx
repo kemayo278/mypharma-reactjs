@@ -1,19 +1,16 @@
 import React from "react";
 import { ArrowLeft, Printer } from 'lucide-react';
 
-export default function PrintRecapOrders({
-  institution, product_recap, total_amount,
-  order_references, user_names, order_titled, order_date, onBack,
-}) {
+export default function PrintRecapOrders({ orders: recapData = {}, onBack }) {
   const handlePrint = () => window.print();
 
-  const sales = product_recap;
-
-  const totalComputed = sales?.reduce(
-    (sum, sale) => sum + Number(sale.product_details.sale_price) * sale.quantity, 0
-  ) ?? 0;
-
-  const displayTotal = total_amount ?? totalComputed;
+  const institution    = recapData.institution     ?? {};
+  const product_recap  = recapData.product_recap   ?? [];
+  const total_amount   = recapData.total_amount    ?? 0;
+  const order_refs     = recapData.order_references ?? '-';
+  const user_names     = recapData.user_names       ?? '-';
+  const order_titled   = recapData.order_titled     ?? '-';
+  const order_date     = recapData.order_date       ?? '-';
 
   return (
     <div className="container-fluid">
@@ -72,9 +69,9 @@ export default function PrintRecapOrders({
         }}>
           <div>
             <div style={{ fontWeight: '800', fontSize: '26px', color: '#10518E', letterSpacing: '-0.5px' }}>
-              {institution?.Institution_name ?? 'MyPharma'}
+              {institution.Institution_name ?? 'MyPharma'}
             </div>
-            {institution?.Institution_state && (
+            {institution.Institution_state && (
               <div style={{ fontSize: '14px', color: '#667085', marginTop: '4px' }}>
                 {institution.Institution_state}
               </div>
@@ -84,8 +81,8 @@ export default function PrintRecapOrders({
             <div style={{ fontSize: '22px', fontWeight: '700', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Facture Récap
             </div>
-            <div style={{ fontSize: '15px', color: '#10518E', fontWeight: '600', marginTop: '6px' }}>
-              {order_references}
+            <div style={{ fontSize: '13px', color: '#10518E', fontWeight: '600', marginTop: '6px', maxWidth: '320px', wordBreak: 'break-word' }}>
+              {order_refs}
             </div>
             <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
               {order_date}
@@ -103,24 +100,19 @@ export default function PrintRecapOrders({
               Établissement
             </div>
             <div style={{ fontWeight: '700', fontSize: '16px', color: '#1a1a2e', marginBottom: '6px' }}>
-              {institution?.Institution_name ?? '-'}
+              {institution.Institution_name ?? '-'}
             </div>
-            {institution?.Institution_matriculation && (
+            {institution.Institution_matriculation && (
               <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
                 {institution.Institution_matriculation}
               </div>
             )}
-            {institution?.Institution_phone && (
+            {institution.Institution_phone && (
               <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
                 {institution.Institution_phone}
               </div>
             )}
-            {institution?.Institution_num_declaration && (
-              <div style={{ fontSize: '14px', color: '#475569', marginBottom: '3px' }}>
-                {institution.Institution_num_declaration}
-              </div>
-            )}
-            {institution?.Institution_number_register && (
+            {institution.Institution_number_register && (
               <div style={{ fontSize: '14px', color: '#475569' }}>
                 {institution.Institution_number_register}
               </div>
@@ -135,23 +127,23 @@ export default function PrintRecapOrders({
               Détails
             </div>
             {[
-              ['Date',      order_date],
-              ['Référence', order_references],
-              ['Intitulé',  order_titled],
-              ['Caisse',    user_names],
+              ['Date',       order_date],
+              ['Référence',  order_refs],
+              ['Intitulé',   order_titled],
+              ['Caisse',     user_names],
             ].map(([label, value]) => (
               <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '7px' }}>
                 <span style={{ fontSize: '15px', color: '#667085' }}>{label}</span>
-                <span style={{ fontSize: '15px', fontWeight: '600', color: '#1a1a2e' }}>{value ?? '-'}</span>
+                <span style={{ fontSize: '15px', fontWeight: '600', color: '#1a1a2e', maxWidth: '200px', textAlign: 'right', wordBreak: 'break-word' }}>{value || '-'}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Tableau */}
+        {/* Tableau produits */}
         <div style={{ marginBottom: '8px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#10518E', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-            Produits
+            Produits ({product_recap.length})
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
@@ -168,25 +160,30 @@ export default function PrintRecapOrders({
               </tr>
             </thead>
             <tbody>
-              {sales?.map((sale, index) => (
-                <tr key={index} style={{
-                  backgroundColor: index % 2 === 0 ? '#f8fafc' : '#fff',
-                  borderBottom: '1px solid #e2e8f0',
-                }}>
-                  <td style={{ padding: '13px 15px', fontSize: '16px', fontWeight: '500', color: '#1a1a2e' }}>
-                    {sale.product_details.name}
-                  </td>
-                  <td style={{ padding: '13px 15px', textAlign: 'center', fontSize: '16px', fontWeight: '700', color: '#1a1a2e' }}>
-                    {sale.quantity}
-                  </td>
-                  <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', color: '#475569' }}>
-                    {Number(sale.product_details.sale_price).toLocaleString('fr-FR')}
-                  </td>
-                  <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', fontWeight: '700', color: '#10518E' }}>
-                    {(Number(sale.product_details.sale_price) * sale.quantity).toLocaleString('fr-FR')}
-                  </td>
-                </tr>
-              ))}
+              {product_recap.map((item, index) => {
+                const pd  = item.product_details ?? {};
+                const qty = item.quantity ?? 0;
+                const pu  = Number(pd.sale_price ?? pd.product_sale_price ?? 0);
+                return (
+                  <tr key={index} style={{
+                    backgroundColor: index % 2 === 0 ? '#f8fafc' : '#fff',
+                    borderBottom: '1px solid #e2e8f0',
+                  }}>
+                    <td style={{ padding: '13px 15px', fontSize: '16px', fontWeight: '500', color: '#1a1a2e' }}>
+                      {pd.name ?? pd.product_name ?? '-'}
+                    </td>
+                    <td style={{ padding: '13px 15px', textAlign: 'center', fontSize: '16px', fontWeight: '700', color: '#1a1a2e' }}>
+                      {qty}
+                    </td>
+                    <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', color: '#475569' }}>
+                      {pu.toLocaleString('fr-FR')}
+                    </td>
+                    <td style={{ padding: '13px 15px', textAlign: 'right', fontSize: '16px', fontWeight: '700', color: '#10518E' }}>
+                      {(pu * qty).toLocaleString('fr-FR')}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -201,20 +198,9 @@ export default function PrintRecapOrders({
               Total à Payer
             </div>
             <div className="print-total-amount" style={{ fontSize: '28px', fontWeight: '800', color: '#fff' }}>
-              {Number(displayTotal).toLocaleString('fr-FR')} XAF
+              {Number(total_amount).toLocaleString('fr-FR')} XAF
             </div>
           </div>
-        </div>
-
-        {/* Mode + Merci */}
-        <div style={{
-          textAlign: 'center', padding: '12px 18px',
-          backgroundColor: '#f0f6ff', borderRadius: '8px',
-          border: '1px solid #d0e4f7', marginBottom: '20px',
-        }}>
-          <span style={{ fontSize: '16px', color: '#10518E', fontWeight: '600' }}>
-            Mode de Paiement : CASH
-          </span>
         </div>
 
         <div style={{ textAlign: 'center', color: '#667085', fontSize: '16px', fontStyle: 'italic', marginBottom: '16px' }}>

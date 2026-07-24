@@ -300,6 +300,7 @@ export default function Creance() {
   const [isPrintingOrders, setIsPrintingOrders] = useState(false);
 
   const handlePrintClickOrders = () => {
+    console.log("filteredOrders", filteredOrders);
     setSelectedOrders(filteredOrders);
     setIsPrintingOrders(true);
   };

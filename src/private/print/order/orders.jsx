@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 
 const groupAndSumQuantities = (allSales) => {
   const grouped = allSales.reduce((acc, sale) => {
-    const productId = parseInt(sale.product.product_id);
+    const productId = sale.product?.id ?? sale.product?.product_id ?? sale.product_id;
     if (!acc[productId]) {
       acc[productId] = { ...sale, sale_quantity: 0 };
     }
@@ -53,7 +53,8 @@ export default function PrintOrders({ orders, onBack, message, titled }) {
   const extractAvailableSources = (sales) => {
     const set = new Set();
     sales.forEach(sale => {
-      if (sale.product?.product_source) set.add(sale.product.product_source);
+      const src = sale.product?.source ?? sale.product?.product_source;
+      if (src) set.add(src);
     });
     return Array.from(set).map(source => ({
       value: source.toLowerCase(),
@@ -81,7 +82,7 @@ export default function PrintOrders({ orders, onBack, message, titled }) {
   const getSalesCountBySource = (source, sales) => {
     if (source === 'all') return sales.length;
     return sales.filter(sale => {
-      const s = sale.product?.product_source;
+      const s = sale.product?.source ?? sale.product?.product_source;
       if (!s) return false;
       const n = s.toLowerCase().trim();
       const f = source.toLowerCase().trim();
@@ -118,7 +119,7 @@ export default function PrintOrders({ orders, onBack, message, titled }) {
   const handleExportExcel = () => {
     const data = filteredSales.map((sale) => ({
       Designation: sale.product.name,
-      Source: sale.product.product_source || 'Non spécifiée',
+      Source: sale.product?.source ?? sale.product?.product_source ?? 'Non spécifiée',
       Catégorie: sale.product.category?.category_name || `Catégorie ${sale.product.category_id}` || 'Non spécifiée',
       Utilisateur: sale.order_user_name || 'Non spécifié',
       Quantité: sale.sale_quantity,
@@ -160,7 +161,7 @@ export default function PrintOrders({ orders, onBack, message, titled }) {
     const filtered = groupedSales.filter(sale => {
       let matchesSource = true;
       if (sourceFilter !== 'all') {
-        const s = sale.product?.product_source;
+        const s = sale.product?.source ?? sale.product?.product_source;
         if (s) {
           const n = s.toLowerCase().trim();
           const f = sourceFilter.toLowerCase().trim();

@@ -506,7 +506,7 @@ export default function Caisse() {
       ) : isPrintingOrders ? (
         <PrintOrders orders={filteredOrders} onBack={handleBackClickOrders} message={message} titled={'Etat de Caisse'} />
       ) : isPrintingOrdersRecap ? (
-        <PrintRecapOrders institution={selectedOrdersRecap.institution} product_recap={selectedOrdersRecap.product_recap} total_amount={selectedOrdersRecap.total_amount} order_references={selectedOrdersRecap.order_references} user_names={selectedOrdersRecap.user_names} order_titled={selectedOrdersRecap.order_titled} order_date={selectedOrdersRecap.order_date} onBack={handleBackClickOrdersRecap}/>
+        <PrintRecapOrders orders={selectedOrdersRecap} institution={getinstitution} onBack={handleBackClickOrdersRecap}/>
       ) : (
         <AppLayout onSearch={handleSearch}>
           {loadingskeletonbutton ? <div className="content-wrapper mt-10 dashboard-page-theme"><br /> <p className="text-center"><span className="loader"></span></p> </div> :

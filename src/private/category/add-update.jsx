@@ -76,7 +76,7 @@ export default function AddUpdateCategory() {
     if (!categoryId) {
       await axiosClient.post('/category',{name : datacategory.category_name, description : datacategory.category_description}).then(({data})  => {
         setSucces("Catégorie ajoutée avec succès !!");
-        setTimeout(() => { setSucces('');}, 4000);
+        setTimeout(() => { setSucces('');}, 15000);
         setErrors(errors);
         setDataCategory(initialState);
       }).catch(err => {
@@ -97,7 +97,7 @@ export default function AddUpdateCategory() {
       formData.append('description', datacategory.category_description);
       await axiosClient.post(`/category/${categoryId}`,formData).then(({data})  => {
         setSucces("Catégorie modifiée avec succès !!");
-        setTimeout(() => { setSucces('');}, 4000);
+        setTimeout(() => { setSucces('');}, 15000);
         setErrors(errors);
       }).catch(err => {
         const response = err.response;

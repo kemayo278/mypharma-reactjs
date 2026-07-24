@@ -27,7 +27,8 @@ import AddUpdateCategory from '@private/category/add-update';
 import Dashboard from '@private/dashboard';
 import ForgetPassword from '@auth/forget-password/forget-password';
 import Products from '@private/product/list';
-import AddUpdateProduct from '@private/product/add-update';
+import AddUpdateProduct from '@private/product/add-update'
+import DuplicateProduct from '@private/product/duplicate';
 import CurrentEntries from '@private/entry/list';
 import AddEntry from '@private/entry/add';
 import Orders from '@private/order/list';
@@ -163,6 +164,7 @@ function App() {
         <Route path="/products" element={<RequireAuth><Products/></RequireAuth>} />
         <Route path="/product/edit/:productId/" element={<RequireAuth><AddUpdateProduct/></RequireAuth>} />
         <Route path="/product/new" element={<RequireAuth><AddUpdateProduct/></RequireAuth>} />
+        <Route path="/product/duplicate/:productId/" element={<RequireAuth><DuplicateProduct/></RequireAuth>} />
 
         <Route path="/stats" element={<RequireAuth><Statistics/></RequireAuth>} />
 

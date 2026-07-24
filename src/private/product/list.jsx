@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import AppLayout from '@layouts/appLayout'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, Image, Plus, Printer, SquarePen, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, Filter, Image, Plus, Printer, SquarePen, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Header from '@components/header'
 import axiosClient from "@/axios-client";
@@ -575,13 +575,18 @@ export default function Products() {
                                               <div style={{ width:"40px" }}>
                                         <Link to={`/product/edit/${product.id}`} className="btn-update" title={"Modifier"}>
                                                       <SquarePen size={15} color={'white'}/>
-                                                  </Link>  
+                                                  </Link>
+                                              </div>
+                                              <div style={{ width:"40px" }}>
+                                        <Link to={`/product/duplicate/${product.id}`} className="btn-update" title={"Dupliquer"} style={{ backgroundColor:"#7c3aed" }}>
+                                                      <Copy size={15} color={'white'}/>
+                                                  </Link>
                                               </div>
                                               <div style={{ width:"40px" }}>
                                         <button className="btn-delete" onClick={() => handleDelete(product.id)} title={"Supprimer"}>
                                                       <Trash2 size={15} color={'white'}/>
-                                                  </button> 
-                                              </div>                                                                                     
+                                                  </button>
+                                              </div>
                                           </td> : null }                         
                                       </tr>
                                   );

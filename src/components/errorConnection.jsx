@@ -19,7 +19,7 @@ const ConnectionError = ({ onRetry }) => {
         </p>
 
         <div className="connection-error-button-wrap">
-          <button type="button" className="connection-error-button" onClick={onRetry}>
+          <button type="button" className="connection-error-button" onClick={() => onRetry && typeof onRetry === 'function' && onRetry()}>
             Reessayer
           </button>
         </div>

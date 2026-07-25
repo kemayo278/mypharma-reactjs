@@ -251,7 +251,7 @@ export default function AddOrder() {
     };
 
     const getCustomers = async () => {
-        axiosClient.get(`/customers`)
+        axiosClient.get(`/customers?status=active`)
             .then(({ data }) => {
                 setCustomers(data.data);
                 setErrorConnection(false);

@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import ConnectionError from '@components/errorConnection'
 import EmptyFetch from '@components/Empty'
 import PrintProducts from '../print/product/products'
+import PrintInventory from '../print/product/inventory'
 import { AuthContext } from '@context/AuthContext';
 import { getProductLots, formatDateDisplay, formatLotDisplay, isProductExpired, isExpiringSoon } from '@services/productHelpers';
 
@@ -240,6 +241,7 @@ export default function Products() {
   };
 
   const [isPrinting, setIsPrinting] = useState(false);
+  const [isPrintingInventory, setIsPrintingInventory] = useState(false);
 
   const handlePrintClickProducts = () => {
     setIsPrinting(true);
@@ -247,6 +249,14 @@ export default function Products() {
 
   const handleBackClickProducts = () => {
     setIsPrinting(false);
+  };
+
+  const handlePrintInventory = () => {
+    setIsPrintingInventory(true);
+  };
+
+  const handleBackInventory = () => {
+    setIsPrintingInventory(false);
   };
 
   const productHasExpiredLot = (product) => {
@@ -290,7 +300,9 @@ export default function Products() {
     <>
       {isPrinting ? (
         <PrintProducts products={filteredProducts} onBack={handleBackClickProducts} titled={'Etat des Produits en Stock'} />
-      ) :  (  
+      ) : isPrintingInventory ? (
+        <PrintInventory products={filteredProducts} onBack={handleBackInventory} />
+      ) : (
       <AppLayout onSearch={handleSearch}>
         {loadingskeletonbutton ? <div className="content-wrapper mt-10 dashboard-page-theme"><br /> <p className="text-center"><span className="loader"></span></p> </div> :
           <>
@@ -338,9 +350,24 @@ export default function Products() {
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     {filteredProducts.length > 0 && (
-                      <a title={'Imprimer Le Resultat'} style={{ cursor:"pointer" }} onClick={(e) => { e.preventDefault(); handlePrintClickProducts(); }}>
-                        <Printer size={25} color={'#08447c'}/>
-                      </a>
+                      <>
+                        <a title={'Imprimer Le Resultat'} style={{ cursor:"pointer" }} onClick={(e) => { e.preventDefault(); handlePrintClickProducts(); }}>
+                          <Printer size={25} color={'#08447c'}/>
+                        </a>
+                        <button
+                          type="button"
+                          title={'Fiche d\'inventaire'}
+                          onClick={handlePrintInventory}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '7px 14px', borderRadius: '7px',
+                            border: '1.5px solid #10518E', backgroundColor: '#fff',
+                            color: '#10518E', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
+                          }}
+                        >
+                          <Printer size={15} /> Fiche inventaire
+                        </button>
+                      </>
                     )}
                     {(currentUser.user_role === "admin" || currentUser.degree == "1") && (
                       <Link

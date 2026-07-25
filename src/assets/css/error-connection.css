@@ -47,6 +47,51 @@
   color: #9a3412;
 }
 
+.connection-error-wifi-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+.connection-error-wifi-tip-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.connection-error-wifi-tip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.connection-error-wifi-tip-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e40af;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.connection-error-wifi-tip-text {
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: #1e3a8a;
+}
+
 .connection-error-button-wrap {
   display: flex;
   justify-content: center;

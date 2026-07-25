@@ -252,9 +252,11 @@ export default function AddUpdateProduct() {
         formData.append("_method", "PUT");
         await axiosClient.post(`/product/${productId}`, formData);
         setSucces("Produit modifie avec succes !");
+        Swal.fire({ position: "top-right", icon: "success", title: "Succes !", text: "Produit modifie avec succes !", showConfirmButton: true, confirmButtonColor: "#10518E" });
       } else {
         await axiosClient.post("/product", formData);
         setSucces("Produit ajoute avec succes !");
+        Swal.fire({ position: "top-right", icon: "success", title: "Succes !", text: "Produit ajoute avec succes !", showConfirmButton: true, confirmButtonColor: "#10518E" });
         setFormValues(initialFormValues);
         setSelectedImage(null);
         if (formRef.current) {

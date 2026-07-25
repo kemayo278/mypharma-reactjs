@@ -102,7 +102,8 @@ export default function DuplicateProduct() {
     try {
       const { data } = await axiosClient.get(`/products/${productId}`);
       const list = data.data || {};
-      const name = list.product_name || list.name || "";
+      let name = list.product_name || list.name || "";
+      name = name.includes("duplicate") ? name : `${name} (copie)`;
       setOriginalProductName(name);
 
       setFormValues({
@@ -216,23 +217,25 @@ export default function DuplicateProduct() {
       formData.append("picture", result.name);
     }
 
-    formData.append("reference", formValues.reference.trim());
-    formData.append("name", formValues.name.trim());
-    formData.append("category_id", formValues.category_id.trim());
-    formData.append("quantity", parseInt(formValues.quantity || "0", 10));
-    formData.append("quantity_alert", formValues.quantity_alert.trim());
-    formData.append("purchase_price", formValues.purchase_price.trim());
-    formData.append("sale_price", formValues.sale_price.trim());
-    formData.append("batch_number", formValues.batch_number.trim());
-    formData.append("expiry_date", formValues.expiry_date.trim());
+    // reference et barcode ont une contrainte unique — on ne les envoie que si renseignés
+    if (formValues.reference.trim()) formData.append("reference", formValues.reference.trim());
+    if (formValues.barcode.trim())   formData.append("barcode",    formValues.barcode.trim());
+
+    formData.append("name",             formValues.name.trim());
+    formData.append("category_id",      formValues.category_id.trim());
+    formData.append("quantity",         parseInt(formValues.quantity || "0", 10));
+    formData.append("quantity_alert",   formValues.quantity_alert.trim());
+    formData.append("purchase_price",   formValues.purchase_price.trim());
+    formData.append("sale_price",       formValues.sale_price.trim());
+    formData.append("batch_number",     formValues.batch_number.trim());
+    formData.append("expiry_date",      formValues.expiry_date.trim());
     formData.append("manufacture_date", formValues.manufacture_date.trim());
-    formData.append("active_ingredient", formValues.active_ingredient.trim());
-    formData.append("dosage", formValues.dosage.trim());
-    formData.append("form", formValues.pharmaceutical_form.trim());
-    formData.append("laboratory", formValues.laboratory.trim());
-    formData.append("barcode", formValues.barcode.trim());
-    formData.append("therapeutic_class", formValues.therapeutic_class.trim());
-    formData.append("storage_condition", formValues.storage_condition.trim());
+    formData.append("active_ingredient",formValues.active_ingredient.trim());
+    formData.append("dosage",           formValues.dosage.trim());
+    formData.append("form",             formValues.pharmaceutical_form.trim());
+    formData.append("laboratory",       formValues.laboratory.trim());
+    formData.append("therapeutic_class",formValues.therapeutic_class.trim());
+    formData.append("storage_condition",formValues.storage_condition.trim());
 
     return formData;
   };
@@ -257,6 +260,7 @@ export default function DuplicateProduct() {
       if (formRef.current) {
         formRef.current.reset();
       }
+      Swal.fire({ position: "top-right", icon: "success", title: "Produit duplique avec succes !", showConfirmButton: false, timer: 3000 });
       setTimeout(() => setSucces(""), 15000);
     } catch (err) {
       const response = err.response;
@@ -393,7 +397,7 @@ export default function DuplicateProduct() {
                   </div>
                   <div className="row">
                     <div className="col-50">
-                      <label htmlFor="batch_number">Numero de lot *</label>
+                      <label htmlFor="batch_number">Numero de lot</label>
                       <input
                         id="batch_number"
                         type="text"

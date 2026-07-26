@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AppLayout from '@layouts/appLayout'
-import { ArrowLeftRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, SquarePen, Trash2 } from 'lucide-react'
+import { ArrowLeftRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, SquarePen, Trash2, ShieldOff } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '@components/header'
 import axiosClient from "@/axios-client";
@@ -170,7 +170,16 @@ export default function Users() {
       <div className="content-wrapper mt-10 dashboard-page-theme">
         <Header title={'Listes des Utilisateurs'+' ('+ filteredUsers.length+ ')'} />
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '8px 14px', borderRadius: '8px',
+            backgroundColor: '#f0f9ff', border: '1px solid #bae6fd',
+            fontSize: '13px', color: '#0369a1',
+          }}>
+            <ShieldOff size={15} color='#0369a1' style={{ flexShrink: 0 }} />
+            <span>Les comptes <strong>Administrateurs (Degré 1)</strong> ne sont pas affichés dans cette liste.</span>
+          </div>
           <Link
             to="/user/new"
             style={{
@@ -178,7 +187,7 @@ export default function Users() {
               padding: '9px 18px', borderRadius: '8px',
               border: 'none', backgroundColor: '#10518E',
               color: '#fff', fontWeight: '600', fontSize: '14px',
-              textDecoration: 'none',
+              textDecoration: 'none', flexShrink: 0,
             }}
           >
             <Plus size={16} color='white' /> Nouvel utilisateur

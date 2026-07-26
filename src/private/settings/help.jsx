@@ -4,7 +4,8 @@ import Header from '@components/header'
 import {
   ShoppingBasket, ClipboardList, Users, CircleDollarSign, ChartBarStacked,
   Wallet, SquarePen, Lock, ChevronDown, Phone, Mail, BookOpen,
-  PackagePlus, ReceiptText, UserCog, BadgeCent, RefreshCcw
+  PackagePlus, ReceiptText, UserCog, BadgeCent, RefreshCcw,
+  Copy, ClipboardCheck, Zap, Wifi
 } from 'lucide-react'
 
 const PRIMARY = '#10518E';
@@ -133,6 +134,44 @@ export default function Help() {
           </div>
         </div>
 
+        {/* Bandeau Nouveautés */}
+        <div style={{
+          background: 'linear-gradient(135deg, #fefce8, #fff7ed)',
+          border: '1.5px solid #fcd34d', borderRadius: '12px',
+          padding: '18px 22px', marginBottom: '24px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <Zap size={18} color="#d97706" />
+            <span style={{ fontWeight: '800', fontSize: '14px', color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Nouveautés récentes
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+            {[
+              { icon: ClipboardCheck, color: '#10518E', label: 'Fiche d\'inventaire',  desc: 'Imprimez une fiche à remplir à la main depuis la liste des produits.' },
+              { icon: Copy,           color: '#7c3aed', label: 'Dupliquer un produit', desc: 'Copiez un produit existant en un clic pour créer un variant rapidement.' },
+              { icon: Zap,            color: '#059669', label: 'Vente en Direct',       desc: 'Créez et encaissez une commande immédiatement depuis la page de création.' },
+              { icon: Wifi,           color: '#0891b2', label: 'Erreur de connexion',   desc: 'Message explicatif si le serveur est inaccessible malgré un WiFi actif.' },
+            ].map(({ icon: Icon, color, label, desc }) => (
+              <div key={label} style={{
+                background: '#fff', borderRadius: '8px', border: '1px solid #fde68a',
+                padding: '12px 14px', display: 'flex', gap: '10px', alignItems: 'flex-start',
+              }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '8px', flexShrink: 0,
+                  background: color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Icon size={16} color={color} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: '700', fontSize: '13px', color: '#111827', marginBottom: '2px' }}>{label}</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.5' }}>{desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Raccourcis fonctionnalités */}
         <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#111827', marginBottom: '14px' }}>
           Aperçu des modules
@@ -141,14 +180,16 @@ export default function Help() {
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: '12px', marginBottom: '28px',
         }}>
-          <QuickCard icon={ClipboardList} color={PRIMARY}   title="Commandes"       desc="Créez, déstockez, encaissez et imprimez les factures en quelques clics." />
-          <QuickCard icon={ShoppingBasket} color="#7c3aed"  title="Produits & Lots"  desc="Gérez l'inventaire, les catégories et les lots avec dates d'expiration." />
-          <QuickCard icon={PackagePlus}  color={SUCCESS}     title="Entrées en Stock" desc="Enregistrez les arrivées fournisseurs et générez les bons d'entrée." />
-          <QuickCard icon={Users}        color="#d97706"     title="Clients"          desc="Créez des fiches clients et suivez leurs créances et historiques." />
-          <QuickCard icon={CircleDollarSign} color="#059669" title="Caisse"          desc="Consultez les recettes journalières et les modes de paiement." />
-          <QuickCard icon={Wallet}       color="#dc2626"     title="Dépenses"         desc="Saisissez et catégorisez toutes les sorties financières." />
-          <QuickCard icon={ReceiptText}  color="#0891b2"     title="Créances"         desc="Suivez les commandes impayées et relancez les clients débiteurs." />
-          <QuickCard icon={UserCog}      color="#6366f1"     title="Utilisateurs"     desc="Gérez les accès par degré : Admin, Gestionnaire, Caissier." />
+          <QuickCard icon={ClipboardList}  color={PRIMARY}   title="Commandes"          desc="Créez, déstockez, encaissez et imprimez les factures en quelques clics." />
+          <QuickCard icon={ShoppingBasket} color="#7c3aed"  title="Produits & Lots"    desc="Gérez l'inventaire, les catégories et les lots avec dates d'expiration." />
+          <QuickCard icon={ClipboardCheck} color="#10518E"  title="Fiche d'inventaire" desc="Imprimez une fiche vierge à remplir à la main pour le comptage physique." />
+          <QuickCard icon={Copy}           color="#7c3aed"  title="Dupliquer un produit" desc="Copiez un produit en un clic pour créer rapidement un variant ou similaire." />
+          <QuickCard icon={PackagePlus}  color={SUCCESS}     title="Entrées en Stock"   desc="Enregistrez les arrivées fournisseurs et générez les bons d'entrée." />
+          <QuickCard icon={Users}        color="#d97706"     title="Clients"            desc="Créez des fiches clients et suivez leurs créances et historiques." />
+          <QuickCard icon={CircleDollarSign} color="#059669" title="Caisse"            desc="Consultez les recettes journalières et les modes de paiement." />
+          <QuickCard icon={Wallet}       color="#dc2626"     title="Dépenses"           desc="Saisissez et catégorisez toutes les sorties financières." />
+          <QuickCard icon={ReceiptText}  color="#0891b2"     title="Créances"           desc="Suivez les commandes impayées et relancez les clients débiteurs." />
+          <QuickCard icon={UserCog}      color="#6366f1"     title="Utilisateurs"       desc="Gérez les accès par degré : Admin, Gestionnaire, Caissier." />
         </div>
 
         {/* Sections FAQ */}
@@ -181,6 +222,10 @@ export default function Help() {
             Sélectionnez au moins 2 commandes déstockées via les cases à cocher, puis cliquez sur <strong>Faire un Recap</strong>.
             Un document consolidé regroupant les produits et montants totaux est généré.
           </Faq>
+          <Faq question="Qu'est-ce que la Vente en Direct ?">
+            Sur la page de création d'une commande, le bouton <strong>Vente en Direct</strong> permet de créer <em>et</em> encaisser la commande en une seule étape.
+            Une fenêtre s'ouvre pour choisir le mode de paiement (Espèces, OM, MOMO, mixte…) et saisir les montants. La commande est alors créée, déstockée et payée immédiatement, sans passer par la liste des commandes.
+          </Faq>
         </Section>
 
         <Section icon={ShoppingBasket} color="#7c3aed" title="Produits & Inventaire">
@@ -199,6 +244,18 @@ export default function Help() {
           <Faq question="Comment gérer les catégories ?">
             Rendez-vous dans <em>Produits → Catégories</em>. Vous pouvez créer, modifier et supprimer des catégories.
             Chaque catégorie possède un nom et une description.
+          </Faq>
+          <Faq question="Comment dupliquer un produit ?">
+            Dans la liste des produits, cliquez sur l'icône <strong>Dupliquer</strong> (icône violet <em>Copy</em>) sur la ligne du produit à copier.
+            Un formulaire pré-rempli avec les données du produit original s'ouvre. Modifiez ce qui diffère (référence, lot, quantité…) puis enregistrez.
+            Cela évite de tout ressaisir pour des produits similaires ou des variants.
+          </Faq>
+          <Faq question="Comment imprimer la fiche d'inventaire ?">
+            Depuis <em>Produits → Inventaire</em>, appliquez si besoin vos filtres (catégorie, état du stock…), puis cliquez sur le bouton
+            <strong> Fiche inventaire</strong> dans la barre d'outils.
+            Une fiche imprimable s'affiche avec, pour chaque produit : sa référence, son nom, sa quantité système et deux colonnes vides
+            (<em>Qté inventoriée</em> et <em>Écart</em>) à remplir à la main lors du comptage physique.
+            Les produits sont groupés par catégorie. En bas de la fiche figurent les zones de signature (Responsable, Contrôleur, Direction).
           </Faq>
         </Section>
 
@@ -270,6 +327,20 @@ export default function Help() {
           </Faq>
           <Faq question="Comment mettre à jour sa photo de profil ?">
             Allez dans <em>Compte → Profil</em> et cliquez sur votre avatar pour télécharger une nouvelle image.
+          </Faq>
+        </Section>
+
+        <Section icon={Wifi} color="#0891b2" title="Connexion & Erreurs réseau">
+          <Faq question="L'application affiche une erreur alors que j'ai du WiFi — pourquoi ?">
+            Avoir accès à Internet (YouTube, Google accessibles) ne garantit pas que le serveur de l'application est joignable.
+            Votre WiFi fonctionne, mais le serveur MyPharma peut être temporairement indisponible ou bloqué par votre opérateur réseau.
+            Ce sont deux choses distinctes. Patientez quelques instants et cliquez sur <strong>Réessayer</strong>.
+            Si le problème persiste, contactez le support.
+          </Faq>
+          <Faq question="Que faire si l'erreur de connexion revient régulièrement ?">
+            Vérifiez d'abord votre réseau (MTN, Orange, Camtel peuvent avoir des restrictions temporaires).
+            Si l'erreur persiste plusieurs heures, effectuez les opérations manuellement et revenez plus tard pour la mise à jour dans l'application.
+            Pensez à contacter le support Kokitech Group si l'accès reste bloqué.
           </Faq>
         </Section>
 

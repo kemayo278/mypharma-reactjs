@@ -53,18 +53,18 @@
   border: none;
   border-radius: 10px;
   padding: 12px 18px;
-  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  background: linear-gradient(135deg, #10518E 0%, #109d74 100%);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.98rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 18px rgba(2, 132, 199, 0.28);
+  box-shadow: 0 8px 18px rgba(16, 81, 142, 0.28);
 }
 
 .empty-state-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(2, 132, 199, 0.34);
+  box-shadow: 0 10px 22px rgba(16, 81, 142, 0.38);
 }
 
 .empty-state-button:active {
@@ -72,7 +72,7 @@
 }
 
 .empty-state-button:focus-visible {
-  outline: 3px solid rgba(2, 132, 199, 0.3);
+  outline: 3px solid rgba(16, 81, 142, 0.3);
   outline-offset: 2px;
 }
 

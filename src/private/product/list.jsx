@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import AppLayout from '@layouts/appLayout'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, Filter, Image, Plus, Printer, SquarePen, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Copy, Filter, Image, Plus, Printer, SquarePen, Tag, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Header from '@components/header'
 import axiosClient from "@/axios-client";
@@ -9,6 +9,7 @@ import ConnectionError from '@components/errorConnection'
 import EmptyFetch from '@components/Empty'
 import PrintProducts from '../print/product/products'
 import PrintInventory from '../print/product/inventory'
+import PrintLabels from '../print/product/labels'
 import { AuthContext } from '@context/AuthContext';
 import { getProductLots, formatDateDisplay, formatLotDisplay, isProductExpired, isExpiringSoon } from '@services/productHelpers';
 
@@ -242,6 +243,11 @@ export default function Products() {
 
   const [isPrinting, setIsPrinting] = useState(false);
   const [isPrintingInventory, setIsPrintingInventory] = useState(false);
+  const [isPrintingLabels, setIsPrintingLabels] = useState(false);
+
+  // Sélection des produits pour les étiquettes
+  const [labelSelectionMode, setLabelSelectionMode] = useState(false);
+  const [selectedLabelIds, setSelectedLabelIds] = useState(new Set());
 
   const handlePrintClickProducts = () => {
     setIsPrinting(true);
@@ -257,6 +263,42 @@ export default function Products() {
 
   const handleBackInventory = () => {
     setIsPrintingInventory(false);
+  };
+
+  const enterLabelSelection = () => {
+    setLabelSelectionMode(true);
+    setSelectedLabelIds(new Set());
+  };
+
+  const exitLabelSelection = () => {
+    setLabelSelectionMode(false);
+    setSelectedLabelIds(new Set());
+  };
+
+  const toggleLabelProduct = (id) => {
+    setSelectedLabelIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAllLabels = () => {
+    if (selectedLabelIds.size === filteredProducts.length) {
+      setSelectedLabelIds(new Set());
+    } else {
+      setSelectedLabelIds(new Set(filteredProducts.map(p => p.id)));
+    }
+  };
+
+  const handlePrintLabels = () => {
+    setIsPrintingLabels(true);
+    setLabelSelectionMode(false);
+  };
+
+  const handleBackLabels = () => {
+    setIsPrintingLabels(false);
+    setSelectedLabelIds(new Set());
   };
 
   const productHasExpiredLot = (product) => {
@@ -302,6 +344,11 @@ export default function Products() {
         <PrintProducts products={filteredProducts} onBack={handleBackClickProducts} titled={'Etat des Produits en Stock'} />
       ) : isPrintingInventory ? (
         <PrintInventory products={filteredProducts} onBack={handleBackInventory} />
+      ) : isPrintingLabels ? (
+        <PrintLabels
+          products={filteredProducts.filter(p => selectedLabelIds.has(p.id))}
+          onBack={handleBackLabels}
+        />
       ) : (
       <AppLayout onSearch={handleSearch}>
         {loadingskeletonbutton ? <div className="content-wrapper mt-10 dashboard-page-theme"><br /> <p className="text-center"><span className="loader"></span></p> </div> :
@@ -367,6 +414,63 @@ export default function Products() {
                         >
                           <Printer size={15} /> Fiche inventaire
                         </button>
+                        {!labelSelectionMode ? (
+                          <button
+                            type="button"
+                            title={'Sélectionner des produits pour imprimer leurs étiquettes'}
+                            onClick={enterLabelSelection}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '6px',
+                              padding: '7px 14px', borderRadius: '7px',
+                              border: '1.5px solid #7c3aed', backgroundColor: '#fff',
+                              color: '#7c3aed', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
+                            }}
+                          >
+                            <Tag size={15} /> Étiquettes
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={toggleSelectAllLabels}
+                              style={{
+                                display: 'flex', alignItems: 'center', gap: '6px',
+                                padding: '7px 12px', borderRadius: '7px',
+                                border: '1.5px solid #7c3aed', backgroundColor: '#f5f3ff',
+                                color: '#7c3aed', fontWeight: '600', fontSize: '12px', cursor: 'pointer',
+                              }}
+                            >
+                              {selectedLabelIds.size === filteredProducts.length ? 'Tout déselect.' : 'Tout sélect.'}
+                            </button>
+                            <button
+                              type="button"
+                              disabled={selectedLabelIds.size === 0}
+                              onClick={handlePrintLabels}
+                              style={{
+                                display: 'flex', alignItems: 'center', gap: '6px',
+                                padding: '7px 14px', borderRadius: '7px',
+                                border: 'none',
+                                backgroundColor: selectedLabelIds.size === 0 ? '#e5e7eb' : '#7c3aed',
+                                color: selectedLabelIds.size === 0 ? '#9ca3af' : '#fff',
+                                fontWeight: '600', fontSize: '13px',
+                                cursor: selectedLabelIds.size === 0 ? 'not-allowed' : 'pointer',
+                              }}
+                            >
+                              <Printer size={15} /> Imprimer ({selectedLabelIds.size})
+                            </button>
+                            <button
+                              type="button"
+                              onClick={exitLabelSelection}
+                              style={{
+                                padding: '7px 12px', borderRadius: '7px',
+                                border: '1.5px solid #d1d5db', backgroundColor: '#fff',
+                                color: '#6b7280', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
+                              }}
+                            >
+                              Annuler
+                            </button>
+                          </>
+                        )}
                       </>
                     )}
                     {(currentUser.user_role === "admin" || currentUser.degree == "1") && (
@@ -530,6 +634,25 @@ export default function Products() {
                     </div>
                   </div>
                 )}
+                {/* Bannière mode sélection étiquettes */}
+                {labelSelectionMode && (
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    padding: '10px 16px', borderRadius: '8px', marginBottom: '12px',
+                    backgroundColor: '#f5f3ff', border: '1.5px solid #c4b5fd',
+                    fontSize: '13px', color: '#5b21b6',
+                  }}>
+                    <Tag size={15} color="#7c3aed" style={{ flexShrink: 0 }} />
+                    <span>
+                      <strong>Mode étiquettes :</strong> cochez les produits à inclure dans l'impression.
+                      {selectedLabelIds.size > 0 && (
+                        <strong style={{ marginLeft: '8px', color: '#7c3aed' }}>
+                          {selectedLabelIds.size} produit{selectedLabelIds.size > 1 ? 's' : ''} sélectionné{selectedLabelIds.size > 1 ? 's' : ''}.
+                        </strong>
+                      )}
+                    </span>
+                  </div>
+                )}
                 <div style={{ height:"44px" }}></div>
                 <>
                   {filteredProducts.length > 0 && !loadingskeletonbutton ?
@@ -538,7 +661,17 @@ export default function Products() {
                             <table id="customers" className="dashboard-orders-table">
                               <thead>
                                   <tr>
-                                      <th style={{ borderTopLeftRadius:"5px",borderBottomLeftRadius:"5px" }}>#</th>
+                                      {labelSelectionMode && (
+                                        <th style={{ borderTopLeftRadius:"5px",borderBottomLeftRadius:"5px", width:'40px', textAlign:'center' }}>
+                                          <input
+                                            type="checkbox"
+                                            checked={selectedLabelIds.size === filteredProducts.length && filteredProducts.length > 0}
+                                            onChange={toggleSelectAllLabels}
+                                            title="Tout sélectionner"
+                                          />
+                                        </th>
+                                      )}
+                                      <th style={!labelSelectionMode ? { borderTopLeftRadius:"5px",borderBottomLeftRadius:"5px" } : {}}>#</th>
                                       <th>Reference</th>
                                       <th>Nom</th>
                                       <th>Quantité</th>
@@ -561,7 +694,16 @@ export default function Products() {
                                     ? { backgroundColor:'#fffbeb', borderLeft:'4px solid #f59e0b' }
                                     : {};
                                   return (
-                                    <tr key={product.id || index} style={rowStyle}>
+                                    <tr key={product.id || index} style={{ ...rowStyle, ...(labelSelectionMode && selectedLabelIds.has(product.id) ? { outline: '2px solid #7c3aed', outlineOffset: '-2px' } : {}) }}>
+                                          {labelSelectionMode && (
+                                            <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedLabelIds.has(product.id)}
+                                                onChange={() => toggleLabelProduct(product.id)}
+                                              />
+                                            </td>
+                                          )}
                                           <td>
                                         {product.picture == "" || product.picture == null ?
                                               <div style={{ alignItems:"center", textAlign:"center", backgroundColor:"#dafafe", padding:"4px", fontSize:"1.7rem",width:"70px" }}>

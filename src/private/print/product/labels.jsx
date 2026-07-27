@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ArrowLeft, Printer, Tag } from 'lucide-react';
 import Barcode from 'react-barcode';
 import { getProductLots, formatDateDisplay } from '@services/productHelpers';
-import axiosClient from '@/axios-client';
+import { getInstitutionFromLocalStorage } from '@local/Institution.js';
 
 export default function PrintLabels({ products, onBack }) {
 
-    const [institutionName, setInstitutionName] = useState('');
+    const [institutionName, setInstitutionName] = useState(
+        () => getInstitutionFromLocalStorage()?.name ?? ''
+    );
     const [copies, setCopies] = useState(1);
-
-    useEffect(() => {
-        axiosClient.get('/institutions')
-            .then(({ data }) => {
-                const inst = data.data[0];
-                if (inst?.Institution_name) {
-                    setInstitutionName(inst.Institution_name);
-                }
-            })
-            .catch(() => {});
-    }, []);
 
     const handleInstitutionChange = (v) => {
         setInstitutionName(v);

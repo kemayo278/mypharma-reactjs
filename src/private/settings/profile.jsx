@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Alert from '@components/Alert';
 import { AuthContext } from '@context/AuthContext';
 import { saveUserProfileToLocalStorage,getUserProfileFromLocalStorage } from '@local/User.js';
+import { saveInstitutionToLocalStorage, getInstitutionFromLocalStorage } from '@local/Institution.js';
 import '@assets/css/profile.css';
 import { Building2, Save, Trash2, Upload } from "lucide-react";
 
@@ -83,28 +84,24 @@ export default function Profile() {
   }, [fileurl]);
 
   useEffect(() => {
-    axiosClient.get('/institutions')
-      .then(({ data }) => {
-        const inst = data.data[0];
-        if (inst) {
-          setInstitutionId(inst.Institution_id);
-          setInstitutionConfig({
-            name: inst.Institution_name ?? '',
-            state: inst.Institution_state ?? '',
-            matriculation: inst.Institution_matriculation ?? '',
-            phone: inst.Institution_phone ?? '',
-            pj: inst.Institution_pj ?? '',
-            number_register: inst.Institution_number_register ?? '',
-            pj_register: inst.Institution_pj_register ?? '',
-            num_declaration: inst.Institution_num_declaration ?? '',
-            cycle: inst.Institution_cycle ?? '',
-            telephone: inst.Institution_telephone ?? '',
-            couverture: inst.Institution_couverture ?? '',
-          });
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoadingInstitution(false));
+    const inst = getInstitutionFromLocalStorage();
+    if (inst) {
+      setInstitutionId(inst.id);
+      setInstitutionConfig({
+        name:            inst.name,
+        state:           inst.state,
+        matriculation:   inst.matriculation,
+        phone:           inst.phone,
+        pj:              inst.pj,
+        number_register: inst.number_register,
+        pj_register:     inst.pj_register,
+        num_declaration: inst.num_declaration,
+        cycle:           inst.cycle,
+        telephone:       inst.telephone,
+        couverture:      inst.couverture,
+      });
+    }
+    setLoadingInstitution(false);
   }, []);
 
   const handleInstitutionChange = (event) => {
@@ -117,6 +114,20 @@ export default function Profile() {
     setLoadingSubmitInstitution(true);
     try {
       await axiosClient.put(`/institution/${institutionId}`, institutionConfig);
+      saveInstitutionToLocalStorage({
+        Institution_id:              institutionId,
+        Institution_name:            institutionConfig.name,
+        Institution_state:           institutionConfig.state,
+        Institution_matriculation:   institutionConfig.matriculation,
+        Institution_phone:           institutionConfig.phone,
+        Institution_pj:              institutionConfig.pj,
+        Institution_number_register: institutionConfig.number_register,
+        Institution_pj_register:     institutionConfig.pj_register,
+        Institution_num_declaration: institutionConfig.num_declaration,
+        Institution_cycle:           institutionConfig.cycle,
+        Institution_telephone:       institutionConfig.telephone,
+        Institution_couverture:      institutionConfig.couverture,
+      });
       Swal.fire({
         position: 'center', icon: 'success',
         title: 'Configuration sauvegardée',

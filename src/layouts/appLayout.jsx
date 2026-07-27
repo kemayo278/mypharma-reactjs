@@ -5,6 +5,7 @@ import { ChartBarStacked, ChartColumnStacked, ChevronDown, CircleDollarSign, Cir
 import { AuthContext } from '@context/AuthContext';
 import { saveUserProfileToLocalStorage,getUserProfileFromLocalStorage,resetUserProfileInLocalStorage } from '@local/User.js';
 import { saveDelayToLocalStorage,getDelayFromLocalStorage,resetDelayInLocalStorage } from '@local/Delay.js';
+import { saveInstitutionToLocalStorage } from '@local/Institution.js';
 import axiosClient from "@/axios-client";
 import Swal from 'sweetalert2';
 import DynamicDateTime from '@components/DynamicDateTime';
@@ -104,6 +105,15 @@ const AppLayout = ({ children, onSearch }) => {
       }, 1000);
 
       return () => window.clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+      axiosClient.get('/institutions')
+        .then(({ data }) => {
+          const inst = data.data[0];
+          if (inst) saveInstitutionToLocalStorage(inst);
+        })
+        .catch(() => {});
     }, []);
 
     useEffect(() => {

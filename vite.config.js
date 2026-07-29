@@ -4,6 +4,15 @@ import path from "path"
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/kpay': {
+        target: 'https://admin.kpay.site',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/kpay/, ''),
+      },
+    },
+  },
   resolve : {
     alias : [
       {

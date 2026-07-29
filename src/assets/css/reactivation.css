@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/plus-jakarta-sans-v12-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/plus-jakarta-sans-v12-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --reactivation-primary: #0f4a8a;
   --reactivation-primary-strong: #083365;
@@ -10,6 +26,7 @@
 
 .reactivation-page {
   min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   position: relative;
   display: flex;
   align-items: center;
@@ -302,6 +319,53 @@
   background: #ffe6e6;
 }
 
+.payment-bg-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.payment-timeout-banner {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-timeout-msg {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #92400e;
+  font-weight: 600;
+}
+
+.cancel-payment-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  align-self: flex-start;
+}
+
+.cancel-payment-btn:hover {
+  opacity: 0.88;
+}
+
+/* Force le toast SweetAlert2 au-dessus du modal (z-index: 9999) */
+.swal-above-modal {
+  z-index: 99999 !important;
+}
+
 /* Modal Styles */
 .subscription-modal-overlay {
   position: fixed;
@@ -317,6 +381,7 @@
   z-index: 9999;
   padding: 20px;
   animation: fadeIn 0.2s ease-out;
+  font-family: 'Jakarta Sans', sans-serif !important;
 }
 
 @keyframes fadeIn {
@@ -337,6 +402,14 @@
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(15, 74, 138, 0.3);
   animation: slideUp 0.3s ease-out;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Les inputs et boutons n'héritent pas font-family par défaut dans les navigateurs.
+   !important nécessaire car modern-layout et ultra-modern-layout écrasent body/container */
+.reactivation-page *,
+.subscription-modal * {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
 @keyframes slideUp {
@@ -392,11 +465,14 @@
 }
 
 .duration-section h3,
-.payment-section h3 {
+.payment-section h3,
+.country-section h3,
+.phone-section h3 {
   font-size: 1.1rem;
   color: var(--reactivation-text);
   margin-bottom: 16px;
   font-weight: 700;
+  text-align: left;
 }
 
 .duration-grid {
@@ -476,6 +552,18 @@
   color: #64748b;
 }
 
+.country-section {
+  margin-bottom: 28px;
+}
+
+.country-section h3 {
+  font-size: 1.1rem;
+  color: var(--reactivation-text);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+
 .phone-section {
   margin-bottom: 28px;
 }
@@ -487,22 +575,44 @@
   font-weight: 700;
 }
 
-.phone-input {
-  width: 100%;
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phone-input-wrapper:focus-within {
+  border-color: var(--reactivation-primary);
+  box-shadow: 0 0 0 4px rgba(15, 74, 138, 0.1);
+}
+
+.phone-dial-code {
+  padding: 14px 12px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 700;
+  font-size: 1rem;
+  border-right: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.phone-input {
+  flex: 1;
+  border: none;
+  outline: none;
   padding: 14px 16px;
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: 1px;
-  outline: none;
-  transition: all 0.3s ease;
-  background: white;
+  background: transparent;
 }
 
-.phone-input:focus {
-  border-color: var(--reactivation-primary);
-  box-shadow: 0 0 0 4px rgba(15, 74, 138, 0.1);
+.phone-input.with-dial {
+  border-radius: 0;
 }
 
 .phone-input::placeholder {

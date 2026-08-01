@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    {
+      "source": "/kpay/:path*",
+      "destination": "https://admin.kpay.site/:path*"
+    },
     { "source": "/(.*)", "destination": "/" }
   ]
 }

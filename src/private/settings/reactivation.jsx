@@ -216,7 +216,7 @@ export default function Reactivation() {
   const [selectedCountry, setSelectedCountry] = useState(DEFAULT_COUNTRY);
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState('698495395');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [licenses, setLicenses] = useState([]);
   const [isLoadingLicenses, setIsLoadingLicenses] = useState(false);
   const [copiedKey, setCopiedKey] = useState('');
